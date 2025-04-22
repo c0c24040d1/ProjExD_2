@@ -38,22 +38,15 @@ def main():
     bb_rct.centerx=random.randint(0,WIDTH)
     bb_rct.centery=random.randint(0,HEIGHT)
 
-    
-
     vx, vy = +5,+5
 
     clock = pg.time.Clock()
     acl=0
 
-    
-
     fonto = pg.font.Font(None,100)
     txt = fonto.render("Game Over",True ,(255, 0 ,0))
     # def calc_orientation(org: pg.Rect, dst: pg.Rect,current_xy: tuple[float, float])->tuple[float,float]:
     
-    
-    
-
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
@@ -66,7 +59,6 @@ def main():
             return
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]
-
 
         for key, mv in DELTA.items():
             if key_lst[key]:
@@ -104,7 +96,6 @@ def main():
         pg.display.update()
         tmr += 1
         clock.tick(50)
-
 
 if __name__ == "__main__":
     pg.init()
