@@ -35,7 +35,7 @@ def main():
     vx, vy = +5,+5
 
     clock = pg.time.Clock()
-    
+    acl=0
 
     fonto = pg.font.Font(None,100)
     txt = fonto.render("Game Over",True ,(255, 0 ,0))
@@ -79,7 +79,15 @@ def main():
         if check_bound(kk_rct) != (True, True):
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
         screen.blit(kk_img, kk_rct)
-        bb_rct.move_ip(vx,vy)
+        if tmr <=10000:
+            acl=1+tmr//500
+            avx=vx*acl
+            avy=vy*acl
+            bb_img = pg.Surface((20*acl,20*acl))
+            pg.draw.circle(bb_img,(255,0,0),(10*acl,10*acl),10*acl)
+            bb_img.set_colorkey((0,0,0))
+
+        bb_rct.move_ip(avx,avy)
         yoko, tate = check_bound(bb_rct)
         if not yoko:
             vx*=-1
