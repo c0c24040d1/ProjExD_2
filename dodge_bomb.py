@@ -13,8 +13,13 @@ DELTA = {
 }
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-
-
+def check_bound(rct:pg.Rect) -> tuple[bool,bool]:
+        yoko, tate = True, True
+        if rct.left < 0 or WIDTH  < rct.right:
+            yoko = False
+        if rct.top < 0 or HEIGHT < rct.bottom:
+            tate = False
+        return yoko, tate
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -33,12 +38,7 @@ def main():
     bb_rct.centerx=random.randint(0,WIDTH)
     bb_rct.centery=random.randint(0,HEIGHT)
 
-    bb_img2 = pg.Surface((20,20))
-    pg.draw.circle(bb_img2,(0,255,0),(10,10),10)
-    bb_img2.set_colorkey((0,0,0))
-    bb_rct2=bb_img2.get_rect()
-    bb_rct2.centerx=random.randint(0,WIDTH)
-    bb_rct2.centery=random.randint(0,HEIGHT)
+    
 
     vx, vy = +5,+5
 
@@ -51,13 +51,7 @@ def main():
     txt = fonto.render("Game Over",True ,(255, 0 ,0))
     # def calc_orientation(org: pg.Rect, dst: pg.Rect,current_xy: tuple[float, float])->tuple[float,float]:
     
-    def check_bound(rct:pg.Rect) -> tuple[bool,bool]:
-        yoko, tate = True, True
-        if rct.left < 0 or WIDTH  < rct.right:
-            yoko = False
-        if rct.top < 0 or HEIGHT < rct.bottom:
-            tate = False
-        return yoko, tate
+    
     
 
     while True:
@@ -65,7 +59,7 @@ def main():
             if event.type == pg.QUIT: 
                 return
         screen.blit(bg_img, [0, 0]) 
-        if kk_rct.colliderect(bb_rct,bb_rct2):
+        if kk_rct.colliderect(bb_rct):
             screen.blit(txt , [300,200])
             print("Game Over")
             pg.display.update()
@@ -100,14 +94,13 @@ def main():
             bb_img.set_colorkey((0,0,0))
 
         bb_rct.move_ip(avx,avy)
-        vx, vy = calc_orientation(bb_rct2,kk_rct,(vx,vy))
+        # vx, vy = calc_orientation(bb_rct2,kk_rct,(vx,vy))
         yoko, tate = check_bound(bb_rct)
         if not yoko:
             vx*=-1
         if not tate:
             vy*=-1
         screen.blit(bb_img,bb_rct)
-        screen.blit(bb_img2,bb_rct2)
         pg.display.update()
         tmr += 1
         clock.tick(50)
