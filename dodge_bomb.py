@@ -24,6 +24,8 @@ def main():
     kk_rct = kk_img.get_rect()
     kk_rct.center = 300, 200
 
+    tmr = 0
+
     bb_img = pg.Surface((20,20))
     pg.draw.circle(bb_img,(255,0,0),(10,10),10)
     bb_img.set_colorkey((0,0,0))
@@ -33,7 +35,10 @@ def main():
     vx, vy = +5,+5
 
     clock = pg.time.Clock()
-    tmr = 0
+    
+
+    fonto = pg.font.Font(None,100)
+    txt = fonto.render("Game Over",True ,(255, 0 ,0))
 
     def check_bound(rct:pg.Rect) -> tuple[bool,bool]:
         yoko, tate = True, True
@@ -50,7 +55,9 @@ def main():
                 return
         screen.blit(bg_img, [0, 0]) 
         if kk_rct.colliderect(bb_rct):
+            screen.blit(txt , [300,200])
             print("Game Over")
+            pg.display.update()
             return
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]
